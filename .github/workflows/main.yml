@@ -1,6 +1,12 @@
 name: Ngrok on Windows Server 2019 with RDP
-
 on:
+
+  workflow_dispatch:
+
+
+
+
+
 
   push:
 
