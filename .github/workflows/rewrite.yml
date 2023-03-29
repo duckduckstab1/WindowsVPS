@@ -1,5 +1,4 @@
-name: Ngrok on Windows Server 2019 with RDP
-
+name: rdp rewrite V2
 on:
 
   workflow_dispatch:
@@ -46,7 +45,7 @@ jobs:
 
         Start-Process -FilePath 'ngrok.exe' -ArgumentList 'authtoken $env:NGROK_AUTH; tcp $env:NGROK_PORT --region=$env:NGROK_REGION' -PassThru | Wait-Process
 
-        $ngrokUrl = ((Invoke-WebRequest -Uri "http://localhost:4040/api/tunnels" | ConvertFrom-Json).tunnels).public_url
+        $ngrokUrl = ((Get-Content "$env:USERPROFILE\.ngrok2\ngrok.log" -Wait -Tail 1) -replace '\S*http://', 'https://')
 
         Write-Host "Ngrok Tunnel URL: $ngrokUrl"
 
