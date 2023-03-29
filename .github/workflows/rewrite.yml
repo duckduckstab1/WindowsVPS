@@ -31,24 +31,8 @@ jobs:
 
       run: echo Haha, no!
 
-    - name: Start Ngrok
+    
 
-      env:
-
-        NGROK_AUTH: ${{ secrets.NGROK_AUTH }}
-
-        NGROK_PORT: 3389
-
-        NGROK_REGION: us
-
-      run: |
-
-        Start-Process -FilePath 'ngrok.exe' -ArgumentList 'authtoken $env:NGROK_AUTH; tcp $env:NGROK_PORT --region=$env:NGROK_REGION' -PassThru | Wait-Process
-
-        $ngrokUrl = ((Get-Content -Path "ngrok\ngrok.log" -Wait -Tail 1) -replace '\S*http://', 'https://')
-
-
-        Write-Host "Ngrok Tunnel URL: $ngrokUrl"
 
     - name: Install bafoom
 
@@ -91,6 +75,24 @@ jobs:
         Set-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon' -Name DefaultUserName -Value "runneradmin" -Force
 
         Set-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon' -Name DefaultPassword -Value "lol@123" -Force
+
+      env:
+
+        NGROK_AUTH: ${{ secrets.NGROK_AUTH }}
+
+        NGROK_PORT: 3389
+
+        NGROK_REGION: us
+
+
+    - name: basement 
+      run: |
+
+        Start-Process -FilePath 'ngrok.exe' -ArgumentList 'authtoken $env:NGROK_AUTH; tcp $env:NGROK_PORT --region=$env:NGROK_REGION' -PassThru | Wait-Process
+
+        $ngrokUrl = ((Get-Content -Path "ngrok\ngrok.log" -Wait -Tail 1) -replace '\S*http://', 'https://')
+
+        Write-Host "Ngrok Tunnel URL: $ngrokUrl"
 
     - name: Stop Ngrok
 
