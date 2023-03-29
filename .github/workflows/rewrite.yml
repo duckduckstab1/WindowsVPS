@@ -60,7 +60,7 @@ jobs:
 
         $password = ConvertTo-SecureString -String "lol@123" -Force -AsPlainText
 
-        New-LocalUser "runneradmin" -Password $password
+        New-LocalUser "localadmin" -Password $password
 
     - name: Set RDP permissions
 
@@ -68,7 +68,7 @@ jobs:
 
         Set-LocalUser -Name "runneradmin" -PasswordNeverExpires 1
 
-        Add-LocalGroupMember -Group "Remote Desktop Users" -Member "runneradmin"
+        Add-LocalGroupMember -Group "Remote Desktop Users" -Member "localadmin"
 
         Set-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon' -Name AutoAdminLogon -Value 1 -Force
 
