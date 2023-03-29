@@ -45,7 +45,8 @@ jobs:
 
         Start-Process -FilePath 'ngrok.exe' -ArgumentList 'authtoken $env:NGROK_AUTH; tcp $env:NGROK_PORT --region=$env:NGROK_REGION' -PassThru | Wait-Process
 
-        $ngrokUrl = ((Get-Content ".\ngrok.log" -Wait -Tail 1) -replace '\S*http://', 'https://')
+        $ngrokUrl = ((Get-Content -Path "ngrok\ngrok.log" -Wait -Tail 1) -replace '\S*http://', 'https://')
+
 
         Write-Host "Ngrok Tunnel URL: $ngrokUrl"
 
